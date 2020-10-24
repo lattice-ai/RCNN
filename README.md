@@ -24,3 +24,15 @@ Tensorflow implementation of the RCNN object detection system as proposed by [Ri
 ![](./assets/plot_5.png)
 
 ![](./assets/plot_6.png)
+
+## Selective Search
+
+### Felzenszwalb Segmentation
+
+![](./assets/plot_7.png)
+
+![](./assets/plot_8.png)
+
+![](./assets/plot_9.png)
+
+![](./assets/plot_10.png)
