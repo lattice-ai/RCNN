@@ -4,6 +4,7 @@ from PIL import Image
 from collections import Counter
 from plotly import express as px
 from matplotlib import pyplot as plt
+from ..selective_search.utils import graph_based_segmentation
 
 
 def plot_objects_per_image(dataframe):
@@ -61,3 +62,23 @@ def plot_from_dataframe(dataframe, index):
             data['ymax_' + str(index + 1)]
         )
     plt.show()
+
+
+def plot_segmentation_samples(images_list, scale, sigma, min_size):
+    for index, image_path in enumerate(images_list):
+        original_image = Image.open(image_path)
+        segmentation_result = graph_based_segmentation(
+            np.array(original_image), scale, sigma, min_size
+        )[:, :, -1]
+        fig = plt.figure(figsize=(12, 24))
+        ax = fig.add_subplot(1, 2, 1)
+        ax.imshow(original_image)
+        ax.set_title('Image_{}'.format(index + 1))
+        ax = fig.add_subplot(1, 2, 2)
+        ax.imshow(segmentation_result)
+        ax.set_title(
+            'Mask_{}\nscale = {}, sigma = {}, min_size = {} \nUnique Regions: {}'.format(
+                index + 1, scale, sigma, min_size, len(np.unique(segmentation_result))
+            )
+        )
+        plt.show()
