@@ -4,7 +4,10 @@ from PIL import Image
 from collections import Counter
 from plotly import express as px
 from matplotlib import pyplot as plt
-from ..selective_search.utils import graph_based_segmentation
+from ..selective_search.utils import (
+    graph_based_segmentation, get_color_histogram,
+    get_texture_gradient, get_texture_histogram
+)
 
 
 def plot_objects_per_image(dataframe):
@@ -81,4 +84,46 @@ def plot_segmentation_samples(images_list, scale, sigma, min_size):
                 index + 1, scale, sigma, min_size, len(np.unique(segmentation_result))
             )
         )
+        plt.show()
+
+
+def plot_color_histogram(images_list):
+    for index, image_path in enumerate(images_list):
+        original_image = np.array(Image.open(image_path))
+        color_histogram = get_color_histogram(original_image)
+        fig = plt.figure(figsize=(12, 12))
+        ax = fig.add_subplot(1, 2, 1)
+        ax.imshow(original_image)
+        ax.set_title('Image_{}'.format(index + 1))
+        ax = fig.add_subplot(1, 2, 2)
+        ax.hist(color_histogram, bins=25)
+        ax.set_title('Color_Histogram_{}'.format(index + 1))
+        plt.show()
+
+
+def plot_texture_gradients(images_list):
+    for index, image_path in enumerate(images_list):
+        original_image = np.array(Image.open(image_path))
+        texture_gradient = get_texture_gradient(original_image)
+        fig = plt.figure(figsize=(12, 24))
+        ax = fig.add_subplot(1, 2, 1)
+        ax.imshow(original_image)
+        ax.set_title('Image_{}'.format(index + 1))
+        ax = fig.add_subplot(1, 2, 2)
+        ax.imshow(texture_gradient.astype(np.uint8))
+        ax.set_title('Texture_Gradient_{}'.format(index + 1))
+        plt.show()
+
+
+def plot_color_histogram(images_list):
+    for index, image_path in enumerate(images_list):
+        original_image = np.array(Image.open(image_path))
+        texture_histogram = get_texture_histogram(original_image)
+        fig = plt.figure(figsize=(12, 12))
+        ax = fig.add_subplot(1, 2, 1)
+        ax.imshow(original_image)
+        ax.set_title('Image_{}'.format(index + 1))
+        ax = fig.add_subplot(1, 2, 2)
+        ax.hist(texture_histogram, bins=10)
+        ax.set_title('Texture_Histogram_{}'.format(index + 1))
         plt.show()
