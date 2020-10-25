@@ -58,3 +58,23 @@ For generating the region proposals, we would look towards the following 2 paper
 ![](./assets/plot_9.png)
 
 ![](./assets/plot_10.png)
+
+#### Texture Gradients
+
+![](./assets/plot_11.png)
+
+![](./assets/plot_12.png)
+
+![](./assets/plot_13.png)
+
+![](./assets/plot_14.png)
+
+#### Selective Search
+
+![](./assets/plot_15.png)
+
+![](./assets/plot_16.png)
+
+![](./assets/plot_17.png)
+
+![](./assets/plot_18.png)
