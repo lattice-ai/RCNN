@@ -2,14 +2,15 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 import seaborn as sns
+from ..metrics import get_iou
 from collections import Counter
 from plotly import express as px
 from matplotlib import pyplot as plt
-from ..selective_search import selective_search
 from ..selective_search.utils import (
     graph_based_segmentation, get_color_histogram,
     get_texture_gradient, get_texture_histogram, extract_regions
 )
+from ..selective_search import selective_search, opencv_selective_search
 
 
 # https://xkcd.com/color/rgb/
@@ -165,3 +166,52 @@ def plot_selected_regions(image_path, scale, sigma, min_size, figsize=(15, 15)):
         label = item["labels"][0]
         plot_bbox(label, x1, y1, x2, y2, backgroundcolor=color)
     plt.show()
+
+
+def plot_iou(image_path, actual_box, scale, sigma, min_size, figsize=(12, 12)):
+    sample_image = Image.open(image_path)
+    _, regions = selective_search(
+        sample_image, scale=scale,
+        sigma=sigma, min_size=min_size
+    )
+    proposed_bboxes = [region['rect'] for region in regions]
+    plt.figure(figsize=figsize)
+    for box in proposed_bboxes:
+        iou = get_iou(
+            actual_box[1], actual_box[3],
+            actual_box[0], actual_box[2],
+            box[0], box[1], box[2], box[3]
+        )
+        plt.imshow(sample_image)
+        if iou > 0.5:
+            plot_bbox(
+                'iou={}'.format(iou), box[0], box[1],
+                box[2], box[3], backgroundcolor='yellow'
+            )
+            plot_bbox(
+                '', actual_box[1], actual_box[3],
+                actual_box[0], actual_box[2], line_color='pink'
+            )
+
+
+def opencv_plot_iou(image_path, actual_box, figsize=(12, 12)):
+    sample_image = Image.open(image_path)
+    proposed_bboxes = opencv_selective_search(cv2.imread(image_path))
+    plt.figure(figsize=figsize)
+    for box in proposed_bboxes:
+        iou = get_iou(
+            actual_box[1], actual_box[3],
+            actual_box[0], actual_box[2],
+            box[0], box[1], box[2] + box[0],
+            box[3] + box[1]
+        )
+        plt.imshow(sample_image)
+        if iou > 0.5:
+            plot_bbox(
+                'iou={}'.format(iou), box[0], box[1],
+                box[2], box[3], backgroundcolor='yellow'
+            )
+            plot_bbox(
+                '', actual_box[1], actual_box[3],
+                actual_box[0], actual_box[2], line_color='pink'
+            )

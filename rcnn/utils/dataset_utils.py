@@ -1,6 +1,6 @@
-import numpy as np
 import pandas as pd
 from glob import glob
+from math import isnan
 from tqdm.notebook import tqdm
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
@@ -48,3 +48,25 @@ def get_dataframe(annotation_files, save_location):
     if save_location is not None:
         dataframe.to_csv(save_location, index=False)
     return dataframe
+
+
+def get_bbox_list(annotation_dataframe, class_filter):
+    bbox = []
+    for index in tqdm(range(len(annotation_dataframe))):
+        row = annotation_dataframe.loc[index, :]
+        for i in range(1, 57):
+            if row['class_{}'.format(i)] == class_filter:
+                if not (
+                    isnan(row['xmax_{}'.format(i)]) and\
+                     isnan(row['xmin_{}'.format(i)]) and\
+                      isnan(row['ymax_{}'.format(i)]) and\
+                      isnan(row['ymin_{}'.format(i)])
+                ):
+                    bbox.append([
+                        row['image_id'],
+                        row['xmax_{}'.format(i)],
+                        row['xmin_{}'.format(i)],
+                        row['ymax_{}'.format(i)],
+                        row['ymin_{}'.format(i)]
+                    ])
+    return bbox

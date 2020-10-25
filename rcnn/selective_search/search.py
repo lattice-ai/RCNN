@@ -1,4 +1,9 @@
+import cv2
 from .utils import *
+
+
+cv2.setUseOptimized(True)
+cv2.setNumThreads(4)
 
 
 def selective_search(original_image, scale, sigma, min_size):
@@ -44,3 +49,10 @@ def selective_search(original_image, scale, sigma, min_size):
             'labels': r['labels']
         })
     return img, regions
+
+
+def opencv_selective_search(image):
+    segmentation = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
+    segmentation.setBaseImage(image)
+    segmentation.switchToSelectiveSearchFast()
+    return segmentation.process()
