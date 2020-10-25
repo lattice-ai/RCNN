@@ -98,3 +98,15 @@ For generating the region proposals, we would look towards the following 2 paper
 ![](./assets/plot_24.png)
 
 ![](./assets/plot_25.png)
+
+
+## Citation
+
+```
+@misc{1311.2524,
+    Author = {Ross Girshick and Jeff Donahue and Trevor Darrell and Jitendra Malik},
+    Title = {Rich feature hierarchies for accurate object detection and semantic segmentation},
+    Year = {2013},
+    Eprint = {arXiv:1311.2524},
+}
+```
