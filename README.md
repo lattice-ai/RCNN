@@ -69,7 +69,7 @@ For generating the region proposals, we would look towards the following 2 paper
 
 ![](./assets/plot_14.png)
 
-#### Selective Search
+#### Generating Bounding Box Proposals
 
 ![](./assets/plot_15.png)
 
@@ -78,3 +78,9 @@ For generating the region proposals, we would look towards the following 2 paper
 ![](./assets/plot_17.png)
 
 ![](./assets/plot_18.png)
+
+#### Narrowing down on objects using IoU
+
+![](./assets/plot_19.png)
+
+![](./assets/plot_20.png)
