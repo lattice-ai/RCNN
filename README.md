@@ -5,6 +5,8 @@ Tensorflow implementation of the RCNN object detection system as proposed by [Ri
 
 **Test Notebook:** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/soumik12345/RCNN/master?filepath=notebooks%2FRCNN_Notebook.ipynb)
 
+**Documented Notebook:** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/soumik12345/RCNN/master?filepath=notebooks%2FRCNN.ipynb)
+
 ## Pascal VOC2012
 
 ### Number of Objects per Image
