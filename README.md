@@ -27,9 +27,29 @@ Tensorflow implementation of the RCNN object detection system as proposed by [Ri
 
 ![](./assets/plot_6.png)
 
-## Selective Search
+## RCNN
 
-### Felzenszwalb Segmentation
+### Overview
+
+The RCNN system was proposed by **Ross Girshick**, **Jeff Donahue**, **Trevor Darrell** and **Jitendra Malik from UC Berkeley in their paper [Rich Feature Hierarchies for Accurate Object Detection and Semantic Segmentation](https://arxiv.org/abs/1311.2524). RCNN stands for Regions with CNN features, which summarizes the working of the system in very simple terms, generating region proposals with classification using CNNs. The RCNN consists of 3 simple stages:
+
+1. Given an input image, around 2000 bottom-up region proposals are extracted.
+
+2. Computation of features for each proposal using a large convolutional neural network (like pre-trained VGG or ResNets).
+
+3. Classification of each region using class-specific linear SVMs (or MLPs).
+
+![](./assets/img_1.png)**
+
+### Seletive Search
+
+For generating the region proposals, we would look towards the following 2 papers:
+
+1. [Efficient Graph-Based Image Segmentation](http://people.cs.uchicago.edu/~pff/papers/seg-ijcv.pdf) proposed by by Pedro F. Felzenszwalb and Daniel P. Huttenlocher.
+
+2. [Selective Search for Object Recognition](http://www.huppelen.nl/publications/selectiveSearchDraft.pdf) proposed by J R R Uijlings, K E A van de Sande, T Gevers and A W M Smeulders.
+
+#### Felzenszwalb Segmentation
 
 ![](./assets/plot_7.png)
 
