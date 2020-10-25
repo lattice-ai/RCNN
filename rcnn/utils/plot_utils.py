@@ -1,13 +1,19 @@
 import numpy as np
 import pandas as pd
 from PIL import Image
+import seaborn as sns
 from collections import Counter
 from plotly import express as px
 from matplotlib import pyplot as plt
+from ..selective_search import selective_search
 from ..selective_search.utils import (
     graph_based_segmentation, get_color_histogram,
-    get_texture_gradient, get_texture_histogram
+    get_texture_gradient, get_texture_histogram, extract_regions
 )
+
+
+# https://xkcd.com/color/rgb/
+common_colors = sns.xkcd_rgb.values()
 
 
 def plot_objects_per_image(dataframe):
@@ -115,7 +121,7 @@ def plot_texture_gradients(images_list):
         plt.show()
 
 
-def plot_color_histogram(images_list):
+def plot_texture_histogram(images_list):
     for index, image_path in enumerate(images_list):
         original_image = np.array(Image.open(image_path))
         texture_histogram = get_texture_histogram(original_image)
@@ -127,3 +133,35 @@ def plot_color_histogram(images_list):
         ax.hist(texture_histogram, bins=10)
         ax.set_title('Texture_Histogram_{}'.format(index + 1))
         plt.show()
+
+
+def plot_all_regions(image_path, scale, sigma, min_size, figsize=(15, 15)):
+    plt.figure(figsize=figsize)
+    image = Image.open(image_path)
+    segmentation_result = graph_based_segmentation(image, 1.0, 0.8, 500)
+    regions = extract_regions(segmentation_result)
+    plt.imshow(image)
+    plt.xlabel('Regions: {}'.format(len(regions.values())))
+    for item, color in zip(regions.values(), common_colors):
+        x1 = item["min_x"]; y1 = item["min_y"]
+        x2 = item["max_x"]; y2 = item["max_y"]
+        label = item["labels"][0]
+        plot_bbox(label, x1, y1, x2, y2, backgroundcolor=color)
+    plt.show()
+
+
+def plot_selected_regions(image_path, scale, sigma, min_size, figsize=(15, 15)):
+    plt.figure(figsize=figsize)
+    image = Image.open(image_path)
+    regions = selective_search(image, scale, sigma, min_size)[1]
+    plt.imshow(image)
+    plt.xlabel('Regions: {}'.format(len(regions)))
+    for item, color in zip(regions, common_colors):
+        x1 = item['rect'][0]; y1 = item['rect'][1]
+        # x2 = item['rect'][0] + item['rect'][2]
+        # y2 = item['rect'][1] + item['rect'][3]
+        x2 = item['rect'][2]
+        y2 = item['rect'][3]
+        label = item["labels"][0]
+        plot_bbox(label, x1, y1, x2, y2, backgroundcolor=color)
+    plt.show()
