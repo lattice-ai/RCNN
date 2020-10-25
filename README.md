@@ -84,3 +84,15 @@ For generating the region proposals, we would look towards the following 2 paper
 ![](./assets/plot_19.png)
 
 ![](./assets/plot_20.png)
+
+![](./assets/plot_21.png)
+
+![](./assets/plot_22.png)
+
+#### Narrowing down on objects using IoU (OpenCV Implementation)
+
+![](./assets/plot_23.png)
+
+![](./assets/plot_24.png)
+
+![](./assets/plot_25.png)
